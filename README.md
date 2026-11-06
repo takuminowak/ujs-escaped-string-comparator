@@ -25,3 +25,10 @@ This library decodes escape sequences to their logical values before comparing. 
 ## Edge case
 
 A backslash followed by a character that is not a valid JSON escape (e.g., `\q`) is left untouched: both the backslash and the character are preserved. This avoids silently dropping characters when the input is not valid JSON.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
